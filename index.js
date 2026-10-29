@@ -2,7 +2,7 @@ const API_KEY = 'dfa6fb647be79d6bbf55d4a515fb8879';
 const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${document.getElementById('city-input').value}&appid=${API_KEY}&units=metric`;
 const button = document.getElementById("submit");
 const input = document.getElementById("city-input");
-const output = document.getElementById("result");
+const output = document.getElementById("weather-container");
 
 document.getElementById('city-input').addEventListener('submit', async (e) => {
   e.preventDefault();
