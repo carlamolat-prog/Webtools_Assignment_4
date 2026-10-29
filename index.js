@@ -1,5 +1,5 @@
 const apiKey = 'dfa6fb647be79d6bbf55d4a515fb8879';
-const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${document.getElementById('city-input').value}&appid=${apiKey}&units=metric`;
+const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${document.getElementById('city-input').value}&appid=${apiKey}&units=imperial`;
 
 document.getElementById('get-weather').addEventListener('click', async () => {
   try {
