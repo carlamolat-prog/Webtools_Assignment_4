@@ -1,21 +1,25 @@
-const apiKey = 'dfa6fb647be79d6bbf55d4a515fb8879';
-const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${document.getElementById('city-input').value}&appid=${apiKey}&units=metric`;
+const API_KEY = 'dfa6fb647be79d6bbf55d4a515fb8879';
+const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${document.getElementById('city-input').value}&appid=${API_KEY}&units=metric`;
 
-document.getElementById('get-weather').addEventListener('click', async () => {
+document.getElementById('city-input').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const city = document.getElementById('city-input').value;
+  if (!city) return alert('Please enter a city name');
+
   try {
-    const res = await fetch(apiUrl);
+    const res = await fetch(API_URL);
     if (!res.ok) throw new Error('City not found');
     const data = await res.json();
-    updateDOM(data);
+
+    // Update DOM
+    document.getElementById('city-name').textContent = data.name;
+    document.getElementById('date').textContent = new Date().toLocaleDateString();
+    document.getElementById('weather-icon').src = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+    document.getElementById('temperature').textContent = `${data.main.temp}°C`;
+    document.getElementById('description').textContent = data.weather[0].description;
+    document.getElementById('wind-speed').textContent = `${data.wind.speed} m/s`;
+
   } catch (err) {
-    document.getElementById('weather-display').innerHTML = `<p>Error: ${err.message}</p>`;
+    document.getElementById('weather-container').innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
   }
 });
-
-function updateDOM(data) {
-  document.getElementById('city-name').textContent = data.name;
-  document.getElementById('temperature').textContent = `${Math.round(data.main.temp)}°C`;
-  document.getElementById('description').textContent = data.weather[0].description;
-  document.getElementById('weather-icon').src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
-  document.getElementById('wind-speed').textContent = `${data.wind.speed} m/s`;
-}
