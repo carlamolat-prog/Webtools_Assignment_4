@@ -1,30 +1,21 @@
-async function getWeather(city) {
-  const apiKey = "dfa6fb647be79d6bbf55d4a515fb8879";
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
+const apiKey = 'dfa6fb647be79d6bbf55d4a515fb8879';
+const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${document.getElementById('city-input').value}&appid=${apiKey}&units=metric`;
 
+document.getElementById('get-weather').addEventListener('click', async () => {
   try {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error(`Server error: ${response.status}`);
-    }
-
-    const data = await response.json();
+    const res = await fetch(apiUrl);
+    if (!res.ok) throw new Error('City not found');
+    const data = await res.json();
     updateDOM(data);
   } catch (err) {
-    displayError(err.message);
+    document.getElementById('weather-display').innerHTML = `<p>Error: ${err.message}</p>`;
   }
-}
+});
 
 function updateDOM(data) {
-  document.getElementById("cityName").textContent = data.name;
-  document.getElementById("temperature").textContent = `Temp: ${data.main.temp}°F`;
-  document.getElementById("description").textContent = data.weather[0].description;
-  document.getElementById("humidity").textContent = `Humidity: ${data.main.humidity}%`;
-
-  document.getElementById("error").textContent = "";
-}
-
-function displayError(message) {
-  document.getElementById("error").textContent = `Error: ${message}`;
+  document.getElementById('city-name').textContent = data.name;
+  document.getElementById('temperature').textContent = `${Math.round(data.main.temp)}°C`;
+  document.getElementById('description').textContent = data.weather[0].description;
+  document.getElementById('weather-icon').src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+  document.getElementById('wind-speed').textContent = `${data.wind.speed} m/s`;
 }
