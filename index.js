@@ -1,4 +1,4 @@
-document.getElementById("searchBtn").addEventListener("click", loadWeather);
+document.getElementById("submit").addEventListener("click", loadWeather);
 
 async function loadWeather() {
   const city = document.getElementById("cityInput").value;
