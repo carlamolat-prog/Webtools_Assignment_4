@@ -5,7 +5,7 @@ const button = document.getElementById("submit");
 const input = document.getElementById("city-input");
 const output = document.getElementById("weather-container");
 
-button.addEventListener('submit', async (e) => {
+button.addEventListener("click", async () => {
   e.preventDefault();
   const city = document.getElementById('city-input').value;
   if (!city) return alert('Please enter a city name');
