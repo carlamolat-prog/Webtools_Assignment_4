@@ -1,21 +1,23 @@
-document.getElementById("submit").addEventListener("click", loadWeather);
+const apiKey = "dfa6fb647be79d6bbf55d4a515fb8879";
 
-async function loadWeather() {
+document.getElementById("searchBtn").addEventListener("click", () => {
   const city = document.getElementById("cityInput").value;
+  getWeather(city);
+});
 
-  if (!city) {
-    alert("Please enter a city.");
-    return;
-  }
+function getWeather(city) {
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
 
-  const response = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=YOUR_API_KEY&units=imperial`
-  );
-
-  const data = await response.json();
-
-  document.getElementById("city").textContent = data.name;
-  document.getElementById("temp").textContent = `${data.main.temp}°F`;
-  document.getElementById("conditions").textContent = data.weather[0].description;
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById("weatherResult").innerHTML = `
+        <h2>${data.name}</h2>
+        <p>Temperature: ${data.main.temp}°F</p>
+        <p>Conditions: ${data.weather[0].description}</p>
+      `;
+    })
+    .catch(err => {
+      document.getElementById("weatherResult").innerHTML = "City not found.";
+    });
 }
-
