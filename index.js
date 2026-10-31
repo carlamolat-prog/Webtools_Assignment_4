@@ -1,5 +1,5 @@
-// 1. Replace with your actual OpenWeatherMap API Key
-const API_KEY = "YOUR_API_KEY_HERE"; 
+// API key placed here.
+const API_KEY = "dfa6fb647be79d6bbf55d4a515fb8879"; 
 
 // 2. Select HTML elements
 const weatherForm = document.querySelector('form');
