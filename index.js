@@ -1,5 +1,6 @@
 const apiKey = "dfa6fb647be79d6bbf55d4a515fb8879";
 
+// Event Listener for mouse click post city input.  
 document.getElementById("submit").addEventListener("click", () => {
   const city = document.getElementById("cityInput").value;
   getWeather(city);
