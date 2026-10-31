@@ -6,6 +6,7 @@ document.getElementById("submit").addEventListener("click", () => {
   getWeather(city);
 });
 
+// URL for api.openweathermap.org in imperial units 
 function getWeather(city) {
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
 
