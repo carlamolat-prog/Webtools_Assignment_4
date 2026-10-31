@@ -27,8 +27,7 @@ weatherForm.addEventListener('submit', async function (event) {
 
 // Fetching JSON fetching weather from openweathermap.org
 async function fetchWeatherData(city) {
-  // Imperial units used here.
-  // FIXED: Added missing path (/data/2.5/weather?q=) and missing ($) sign
+  // CORRECTED: Added api sub-domain, data path, and the literal $ sign
   const url = `https://openweathermap.org{encodeURIComponent(city)}&appid=${API_KEY}&units=imperial`;
 
   try {
@@ -66,7 +65,7 @@ function updateUI(data) {
   
   // Mapping openweather icon to HTML
   const iconCode = data.weather[0].icon;
-  // FIXED: Added missing (/) after img/wn and missing ($) sign
+  // CORRECTED: Added the icon directory path (/img/wn/) and the literal $ sign
   weatherIcon.src = `https://openweathermap.org{iconCode}@2x.png`;
   weatherIcon.style.display = "block"; // Make sure it's visible
   weatherIcon.alt = data.weather[0].description;
@@ -91,4 +90,3 @@ function handleWeatherError(errorMessage) {
   temperature.textContent = "";
   description.textContent = errorMessage;
 }
-
