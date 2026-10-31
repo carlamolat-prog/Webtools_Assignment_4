@@ -30,6 +30,7 @@ async function fetchWeatherData(city) {
   // Imperial units used here.
   const url = `https://openweathermap.org{encodeURIComponent(city)}&appid=${API_KEY}&units=imperial`;
 
+
   try {
     const response = await fetch(url);
 
