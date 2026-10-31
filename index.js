@@ -77,7 +77,7 @@ function updateUI(data) {
   cityInput.value = '';
 }
 
-// 6. Handle errors gracefully inside the UI instead of crashing
+// Error handling inside UI versus crashing website.
 function handleWeatherError(errorMessage) {
   console.error(errorMessage);
   
