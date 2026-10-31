@@ -65,7 +65,7 @@ function updateUI(data) {
   
   // Mapping openweather icon to HTML
   const iconCode = data.weather[0].icon;
-  // CORRECTED: Added the icon directory path (/img/wn/) and the literal $ sign
+  // Icon directory path 
   weatherIcon.src = `https://openweathermap.org{iconCode}@2x.png`;
   weatherIcon.style.display = "block"; // Make sure it's visible
   weatherIcon.alt = data.weather[0].description;
