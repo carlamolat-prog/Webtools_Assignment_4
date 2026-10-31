@@ -1,7 +1,7 @@
 // API key placed here.
 const API_KEY = "dfa6fb647be79d6bbf55d4a515fb8879"; 
 
-// 2. Select HTML elements
+// HTML element selections
 const weatherForm = document.querySelector('form');
 const cityInput = document.getElementById('city-input');
 
@@ -11,9 +11,9 @@ const weatherIcon = document.getElementById('weather-icon');
 const temperature = document.getElementById('temperature');
 const description = document.getElementById('description');
 
-// 3. Listen for form submission
+// Event Listener for form submission.
 weatherForm.addEventListener('submit', async function (event) {
-  event.preventDefault(); // Stop page reload
+  event.preventDefault(); // Stop page reload errors.
 
   const city = cityInput.value.trim();
   if (!city) {
@@ -21,19 +21,19 @@ weatherForm.addEventListener('submit', async function (event) {
     return;
   }
 
-  // Fetch and render the data
+  // Fetch command.
   await fetchWeatherData(city);
 });
 
-// 4. Fetch JSON data from OpenWeatherMap API
+// Fetching JSON fetching weather from openweathermap.org
 async function fetchWeatherData(city) {
-  // Use units=imperial for Fahrenheit, units=metric for Celsius
+  // Imperial units used here.
   const url = `https://openweathermap.org{encodeURIComponent(city)}&appid=${API_KEY}&units=imperial`;
 
   try {
     const response = await fetch(url);
 
-    // If response status is not OK (e.g., 404 City Not Found), throw an error
+    // Error if city not found.
     if (!response.ok) {
       if (response.status === 404) {
         throw new Error('City not found. Please try again.');
@@ -52,7 +52,7 @@ async function fetchWeatherData(city) {
   }
 }
 
-// 5. Update DOM dynamically with real-time data
+// Realtime data update
 function updateUI(data) {
   cityName.textContent = `${data.name}, ${data.sys.country}`;
   
@@ -63,7 +63,7 @@ function updateUI(data) {
     day: 'numeric'
   });
   
-  // OpenWeather provides an icon code; map it to their image URL
+  // Mapping openweather icon to HTML
   const iconCode = data.weather[0].icon;
   weatherIcon.src = `https://openweathermap.org{iconCode}@2x.png`;
   weatherIcon.style.display = "block"; // Make sure it's visible
