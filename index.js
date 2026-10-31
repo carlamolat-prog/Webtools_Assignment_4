@@ -1,4 +1,7 @@
-// 1. Select all the HTML elements we need to interact with
+// 1. Replace with your actual OpenWeatherMap API Key
+const API_KEY = "YOUR_API_KEY_HERE"; 
+
+// 2. Select HTML elements
 const weatherForm = document.querySelector('form');
 const cityInput = document.getElementById('city-input');
 
@@ -8,17 +11,82 @@ const weatherIcon = document.getElementById('weather-icon');
 const temperature = document.getElementById('temperature');
 const description = document.getElementById('description');
 
-// 2. Add an event listener to handle the form submission
-weatherForm.addEventListener('submit', function (event) {
-  // Prevent the default browser behavior (refreshing the page)
-  event.preventDefault();
+// 3. Listen for form submission
+weatherForm.addEventListener('submit', async function (event) {
+  event.preventDefault(); // Stop page reload
 
-  // Get the value the user typed and trim any accidental spaces
   const city = cityInput.value.trim();
-
-  if (city) {
-    getWeatherData(city);
-  } else {
+  if (!city) {
     alert('Please enter a city name.');
+    return;
   }
+
+  // Fetch and render the data
+  await fetchWeatherData(city);
 });
+
+// 4. Fetch JSON data from OpenWeatherMap API
+async function fetchWeatherData(city) {
+  // Use units=imperial for Fahrenheit, units=metric for Celsius
+  const url = `https://openweathermap.org{encodeURIComponent(city)}&appid=${API_KEY}&units=imperial`;
+
+  try {
+    const response = await fetch(url);
+
+    // If response status is not OK (e.g., 404 City Not Found), throw an error
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error('City not found. Please try again.');
+      } else if (response.status === 401) {
+        throw new Error('Invalid API Key. Please check your credentials.');
+      } else {
+        throw new Error('Something went wrong. Please try again later.');
+      }
+    }
+
+    const data = await response.json();
+    updateUI(data);
+
+  } catch (error) {
+    handleWeatherError(error.message);
+  }
+}
+
+// 5. Update DOM dynamically with real-time data
+function updateUI(data) {
+  cityName.textContent = `${data.name}, ${data.sys.country}`;
+  
+  // Format current date nicely
+  dateDisplay.textContent = new Date().toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'short',
+    day: 'numeric'
+  });
+  
+  // OpenWeather provides an icon code; map it to their image URL
+  const iconCode = data.weather[0].icon;
+  weatherIcon.src = `https://openweathermap.org{iconCode}@2x.png`;
+  weatherIcon.style.display = "block"; // Make sure it's visible
+  weatherIcon.alt = data.weather[0].description;
+
+  // Render values straight out of the JSON response payload
+  temperature.textContent = `${Math.round(data.main.temp)}°F`;
+  description.textContent = data.weather[0].description.charAt(0).toUpperCase() + data.weather[0].description.slice(1);
+  
+  // Reset input field
+  cityInput.value = '';
+}
+
+// 6. Handle errors gracefully inside the UI instead of crashing
+function handleWeatherError(errorMessage) {
+  console.error(errorMessage);
+  
+  // Display error messaging directly inside the UI dashboard elements
+  cityName.textContent = "Error";
+  dateDisplay.textContent = "";
+  weatherIcon.src = "";
+  weatherIcon.style.display = "none";
+  temperature.textContent = "";
+  description.textContent = errorMessage;
+}
+
