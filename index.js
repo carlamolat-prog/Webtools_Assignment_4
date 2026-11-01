@@ -67,7 +67,7 @@ function updateUI(data) {
   const iconCode = data.weather[0].icon;
   // Icon directory path 
   weatherIcon.src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-  weatherIcon.style.display = "block"; // Make sure it's visible
+  weatherIcon.style.display = "block";  
   weatherIcon.alt = data.weather[0].description;
 
   // Render values straight out of the JSON response payload
