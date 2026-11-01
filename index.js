@@ -27,7 +27,7 @@ weatherForm.addEventListener('submit', async function (event) {
 
 // Fetching JSON fetching weather from openweathermap.org
 async function fetchWeatherData(city) {
-  // CORRECTED: Added api sub-domain, data path, and the literal $ sign
+  // Added api sub-domain, data path, and the literal $ sign after several fetch errors.
   const url = `https://openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=imperial`;
 
   try {
